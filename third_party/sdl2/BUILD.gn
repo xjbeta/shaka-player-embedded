@@ -82,6 +82,8 @@ config("source_internal_config") {
         "Cocoa.framework",
         "ForceFeedback.framework",
       ]
+
+      cflags += [ "-I/opt/X11/include" ]
     } else {
       cflags += [ "-fobjc-arc" ]
 
