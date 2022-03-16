@@ -894,7 +894,7 @@ source_set("internal_sources") {
   configs += [ ":internal_config" ]
 }
 
-if (is_ios) {
+if (is_mac || is_ios) {
   bundle_data("scripts_bundle") {
     visibility = [ ":*" ]
     if (is_debug) {
