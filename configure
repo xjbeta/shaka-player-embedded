@@ -55,7 +55,7 @@ DEFAULT_SETTINGS = {
 PLATFORM_SPECIFIC_SETTINGS = {
     'darwin': {
         'enable_dsyms': True,
-        'mac_deployment_target': '10.10.0',
+        'mac_deployment_target': '10.14.0',
         'ios_deployment_target': '10.0',
     },
 }
@@ -246,6 +246,9 @@ def _BinutilsSymlink(unused_src_dir, unused_dest_dir, unused_cpu, target_os,
                      unused_sysroot, unused_parsed_args):
   """Creates a symlink from V8's binutils to our root path."""
   if target_os == 'ios':
+    return 0
+  
+  if target_os == 'mac':
     return 0
 
   utils.SymLink(os.path.join(ROOT_DIR, 'v8', 'third_party', 'binutils'),
