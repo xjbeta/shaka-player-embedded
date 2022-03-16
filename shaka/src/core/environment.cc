@@ -198,7 +198,7 @@ void Environment::Install() {
   // Run the script directly since we are initializing, so this is
   // effectively the event thread.
   JsManagerImpl* manager = JsManagerImpl::Instance();
-  CHECK(RunScript(manager->GetPathForStaticFile("shaka-player.compiled.js")));
+  CHECK(RunScript(manager->GetPathForDynamicFile("shaka-player.compiled.js")));
 }
 
 
