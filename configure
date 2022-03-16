@@ -705,6 +705,9 @@ def _CreateArgParser():
       '--ios', action='store_const', dest='target_os', const='ios',
       help='Build for iOS devices (only available on Mac).')
   extra_parser.add_argument(
+      '--mac', action='store_const', dest='target_os', const='mac',
+      help='Build for macOS devices (only available on Mac).')
+  extra_parser.add_argument(
       '--sdl-audio', action='store_const', dest='sdl_audio', const=True,
       help='Include the SdlAudioRenderer in the Library.')
   extra_parser.add_argument(

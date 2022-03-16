@@ -47,6 +47,12 @@ def FlagsForCpu(cpu, target_os, sysroot):
       extra += ' -mios-simulator-version-min=9.0'
     else:
       extra += ' -miphoneos-version-min=9.0'
+  elif target_os == 'mac':
+    if cpu == 'x86' or cpu == 'x64':
+      extra += ' -mmacosx-version-min=10.14'
+    else:
+      extra += ' -mmacosx-version-min=11.0'
+
   return FLAGS[cpu] + extra
 
 
