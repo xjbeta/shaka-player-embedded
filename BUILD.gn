@@ -287,7 +287,7 @@ config("eme_plugin_config") {
 }
 
 if (_eme_plugin_info.copy_files != []) {
-  if (is_ios) {
+  if (is_ios || is_mac) {
     bundle_data("eme_plugin_files") {
       visibility = [ ":*" ]
       sources = _eme_plugin_info.copy_files
@@ -755,6 +755,15 @@ source_set("internal_sources") {
       "shaka/src/public/ShakaPlayerView.mm",
     ]
   }
+
+  if (is_mac) {
+    sources += [
+      "shaka/src/public/net_objc.mm",
+      "shaka/src/public/net_objc+Internal.h",
+      "shaka/src/public/ShakaPlayer.mm",
+      "shaka/src/public/ShakaPlayerStorage.mm",
+    ]
+  }
   if (decoder == "ffmpeg") {
     sources += [
       "shaka/src/media/ffmpeg/ffmpeg_decoded_frame.cc",
@@ -843,6 +852,11 @@ source_set("internal_sources") {
       libs += [
         "AVKit.framework",
         "UIKit.framework",
+      ]
+    }
+    if (is_mac) {
+      libs += [
+        "AVKit.framework",
       ]
     }
   } else {
@@ -1062,6 +1076,9 @@ if (is_mac || is_ios) {
       framework_version = "A"
       framework_contents = []
       extra_substitutions = [ "IOS_BUNDLE_ID_PREFIX=$ios_app_bundle_id_prefix" ]
+
+      sources = [ "shaka/include/shaka/ShakaPlayerEmbedded.h" ]
+      # public_headers = sources
     } else {
       # ios_framework_bundle requires that sources and public_headers not be
       # empty.
@@ -1076,7 +1093,7 @@ if (is_mac || is_ios) {
       ":cpp_api_headers",
     ]
 
-    if (is_ios) {
+    if (is_ios || is_mac) {
       # TODO: Add support for Mac builds.
       deps += [
         ":license_bundle",
@@ -1095,7 +1112,7 @@ if (is_mac || is_ios) {
     # Mark this symbol as undefined so we don't get linker errors when building
     # the framework.  The app will need to define this.
     ldflags = [ "-Wl,-U,_SDL_main" ]
-    if (is_ios) {
+    if (is_ios || is_mac) {
       ldflags += [ "-rpath", "@loader_path/Frameworks" ]
     }
 
